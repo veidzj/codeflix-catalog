@@ -26,5 +26,10 @@ public class Category
     {
       throw new EntityValidationException($"{nameof(this.Name)} should not be empty or null");
     }
+
+    if (this.Description == null)
+    {
+      throw new EntityValidationException($"{nameof(this.Description)} should not be null");
+    }
   }
 }

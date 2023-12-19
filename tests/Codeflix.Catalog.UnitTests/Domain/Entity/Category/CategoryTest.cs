@@ -1,5 +1,6 @@
 ﻿using Codeflix.Catalog.Domain.Exceptions;
 using System;
+using System.Linq;
 using Xunit;
 using DomainEntity = Codeflix.Catalog.Domain.Entity;
 
@@ -95,5 +96,18 @@ public class CategoryTest
     };
     EntityValidationException exception = Assert.Throws<EntityValidationException>(action);
     Assert.Equal("Name should be at least 3 characters long", exception.Message);
+  }
+
+  [Fact(DisplayName = nameof(ThrowWhenNameIsGreaterThan255Characters))]
+  [Trait("Domain", "Category - Aggregates")]
+  public void ThrowWhenNameIsGreaterThan255Characters()
+  {
+    string invalidName = string.Join(null, Enumerable.Range(1, 256).Select(_ => "a").ToArray());
+    Action action = () =>
+    {
+      _ = new DomainEntity.Category(invalidName, "Category Description");
+    };
+    EntityValidationException exception = Assert.Throws<EntityValidationException>(action);
+    Assert.Equal("Name should be less or equal 255 characters long", exception.Message);
   }
 }

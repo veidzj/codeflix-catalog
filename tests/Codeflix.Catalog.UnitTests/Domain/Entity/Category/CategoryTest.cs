@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Codeflix.Catalog.Domain.Exceptions;
+using System;
 using Xunit;
 using DomainEntity = Codeflix.Catalog.Domain.Entity;
 
@@ -51,5 +52,20 @@ public class CategoryTest
     Assert.True(category.CreatedAt < dateTimeAfter);
     Assert.True(category.CreatedAt > dateTimeBefore);
     Assert.Equal(isActive, category.IsActive);
+  }
+
+  [Theory(DisplayName = nameof(ThrowWhenNameIsEmpty))]
+  [Trait("Domain", "Category - Aggregates")]
+  [InlineData("")]
+  [InlineData(null)]
+  [InlineData(" ")]
+  public void ThrowWhenNameIsEmpty(string? name)
+  {
+    Action action = () =>
+    {
+      _ = new DomainEntity.Category(name!, "Category Description");
+    };
+    EntityValidationException exception = Assert.Throws<EntityValidationException>(action);
+    Assert.Equal("Name should not be empty or null", exception.Message);
   }
 }

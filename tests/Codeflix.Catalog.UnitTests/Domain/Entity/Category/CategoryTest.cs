@@ -68,4 +68,16 @@ public class CategoryTest
     EntityValidationException exception = Assert.Throws<EntityValidationException>(action);
     Assert.Equal("Name should not be empty or null", exception.Message);
   }
+
+  [Fact(DisplayName = nameof(ThrowWhenDescriptionIsNull))]
+  [Trait("Domain", "Category - Aggregates")]
+  public void ThrowWhenDescriptionIsNull()
+  {
+    Action action = () =>
+    {
+      _ = new DomainEntity.Category("Category Name", null!);
+    };
+    EntityValidationException exception = Assert.Throws<EntityValidationException>(action);
+    Assert.Equal("Description should not be null", exception.Message);
+  }
 }

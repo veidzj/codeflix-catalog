@@ -41,5 +41,10 @@ public class Category
     {
       throw new EntityValidationException($"{nameof(this.Description)} should not be null");
     }
+
+    if (this.Description.Length > 10_000)
+    {
+      throw new EntityValidationException($"{nameof(this.Description)} should be less or equal 10.000 characters long");
+    }
   }
 }

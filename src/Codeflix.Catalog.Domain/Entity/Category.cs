@@ -47,4 +47,10 @@ public class Category
       throw new EntityValidationException($"{nameof(this.Description)} should be less or equal 10.000 characters long");
     }
   }
+
+  public void Activate()
+  {
+    this.IsActive = true;
+    this.Validate();
+  }
 }

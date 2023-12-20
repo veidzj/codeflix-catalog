@@ -53,4 +53,10 @@ public class Category
     this.IsActive = true;
     this.Validate();
   }
+
+  public void Deactivate()
+  {
+    this.IsActive = false;
+    this.Validate();
+  }
 }

@@ -20,7 +20,7 @@ public class Category
     this.Validate();
   }
 
-  public void Validate()
+  private void Validate()
   {
     if (string.IsNullOrWhiteSpace(this.Name))
     {

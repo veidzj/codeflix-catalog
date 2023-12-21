@@ -59,4 +59,10 @@ public class Category
     this.IsActive = false;
     this.Validate();
   }
+
+  public void Update(string name, string description)
+  {
+    this.Name = name;
+    this.Description = description;
+  }
 }

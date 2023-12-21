@@ -55,12 +55,12 @@ public class CategoryTest
     Assert.Equal(isActive, category.IsActive);
   }
 
-  [Theory(DisplayName = nameof(ThrowWhenNameIsEmpty))]
+  [Theory(DisplayName = nameof(InstantiateThrowWhenNameIsEmpty))]
   [Trait("Domain", "Category - Aggregates")]
   [InlineData("")]
   [InlineData(null)]
   [InlineData(" ")]
-  public void ThrowWhenNameIsEmpty(string? name)
+  public void InstantiateThrowWhenNameIsEmpty(string? name)
   {
     Action action = () =>
     {
@@ -70,9 +70,9 @@ public class CategoryTest
     Assert.Equal("Name should not be empty or null", exception.Message);
   }
 
-  [Fact(DisplayName = nameof(ThrowWhenDescriptionIsNull))]
+  [Fact(DisplayName = nameof(InstantiateThrowWhenDescriptionIsNull))]
   [Trait("Domain", "Category - Aggregates")]
-  public void ThrowWhenDescriptionIsNull()
+  public void InstantiateThrowWhenDescriptionIsNull()
   {
     Action action = () =>
     {
@@ -82,13 +82,13 @@ public class CategoryTest
     Assert.Equal("Description should not be null", exception.Message);
   }
 
-  [Theory(DisplayName = nameof(ThrowWhenNameIsLessThan3Characters))]
+  [Theory(DisplayName = nameof(InstantiateThrowWhenNameIsLessThan3Characters))]
   [Trait("Domain", "Category - Aggregates")]
   [InlineData("1")]
   [InlineData("12")]
   [InlineData("a")]
   [InlineData("ab")]
-  public void ThrowWhenNameIsLessThan3Characters(string invalidName)
+  public void InstantiateThrowWhenNameIsLessThan3Characters(string invalidName)
   {
     Action action = () =>
     {
@@ -98,9 +98,9 @@ public class CategoryTest
     Assert.Equal("Name should be at least 3 characters long", exception.Message);
   }
 
-  [Fact(DisplayName = nameof(ThrowWhenNameIsGreaterThan255Characters))]
+  [Fact(DisplayName = nameof(InstantiateThrowWhenNameIsGreaterThan255Characters))]
   [Trait("Domain", "Category - Aggregates")]
-  public void ThrowWhenNameIsGreaterThan255Characters()
+  public void InstantiateThrowWhenNameIsGreaterThan255Characters()
   {
     string invalidName = string.Join(null, Enumerable.Range(1, 256).Select(_ => "a").ToArray());
     Action action = () =>
@@ -111,9 +111,9 @@ public class CategoryTest
     Assert.Equal("Name should be less or equal 255 characters long", exception.Message);
   }
 
-  [Fact(DisplayName = nameof(ThrowWhenDescriptionIsGreaterThan10_000Characters))]
+  [Fact(DisplayName = nameof(InstantiateThrowWhenDescriptionIsGreaterThan10_000Characters))]
   [Trait("Domain", "Category - Aggregates")]
-  public void ThrowWhenDescriptionIsGreaterThan10_000Characters()
+  public void InstantiateThrowWhenDescriptionIsGreaterThan10_000Characters()
   {
     string invalidDescription = string.Join(null, Enumerable.Range(1, 10_001).Select(_ => "a").ToArray());
     Action action = () =>

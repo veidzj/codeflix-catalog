@@ -172,4 +172,21 @@ public class CategoryTest
     Assert.Equal(newValues.Name, category.Name);
     Assert.Equal(newValues.Description, category.Description);
   }
+
+  [Fact(DisplayName = nameof(UpdateOnlyName))]
+  [Trait("Domain", "Category - Aggregates")]
+  public void UpdateOnlyName()
+  {
+    DomainEntity.Category category = new("Category Name", "Category Description");
+    string currentDescription = category.Description;
+    var newValues = new
+    {
+      Name = "New Name"
+    };
+
+    category.Update(newValues.Name);
+
+    Assert.Equal(newValues.Name, category.Name);
+    Assert.Equal(currentDescription, category.Description);
+  }
 }

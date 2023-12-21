@@ -64,5 +64,6 @@ public class Category
   {
     this.Name = name;
     this.Description = description ?? this.Description;
+    this.Validate();
   }
 }

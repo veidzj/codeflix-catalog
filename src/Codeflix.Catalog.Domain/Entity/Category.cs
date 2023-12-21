@@ -60,9 +60,9 @@ public class Category
     this.Validate();
   }
 
-  public void Update(string name, string description)
+  public void Update(string name, string? description = null)
   {
     this.Name = name;
-    this.Description = description;
+    this.Description = description ?? this.Description;
   }
 }

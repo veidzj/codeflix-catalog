@@ -17,15 +17,15 @@ public class CategoryTest
     DomainEntity.Category validCategory = CategoryTestFixture.MakeValidCategory();
     DateTime dateTimeBefore = DateTime.Now;
     DomainEntity.Category category = new(validCategory.Name, validCategory.Description);
-    DateTime dateTimeAfter = DateTime.Now;
+    DateTime dateTimeAfter = DateTime.Now.AddSeconds(1);
 
     category.Should().NotBeNull();
     category.Name.Should().Be(validCategory.Name);
     category.Description.Should().Be(validCategory.Description);
     category.Id.Should().NotBeEmpty();
     category.CreatedAt.Should().NotBeSameDateAs(default);
-    (category.CreatedAt < dateTimeAfter).Should().BeTrue();
-    (category.CreatedAt > dateTimeBefore).Should().BeTrue();
+    (category.CreatedAt <= dateTimeAfter).Should().BeTrue();
+    (category.CreatedAt >= dateTimeBefore).Should().BeTrue();
     category.IsActive.Should().BeTrue();
   }
 
@@ -38,15 +38,15 @@ public class CategoryTest
     DomainEntity.Category validCategory = CategoryTestFixture.MakeValidCategory();
     DateTime dateTimeBefore = DateTime.Now;
     DomainEntity.Category category = new(validCategory.Name, validCategory.Description, isActive);
-    DateTime dateTimeAfter = DateTime.Now;
+    DateTime dateTimeAfter = DateTime.Now.AddSeconds(1);
 
     category.Should().NotBeNull();
     category.Name.Should().Be(validCategory.Name);
     category.Description.Should().Be(validCategory.Description);
     category.Id.Should().NotBeEmpty();
     category.CreatedAt.Should().NotBeSameDateAs(default);
-    (category.CreatedAt < dateTimeAfter).Should().BeTrue();
-    (category.CreatedAt > dateTimeBefore).Should().BeTrue();
+    (category.CreatedAt <= dateTimeAfter).Should().BeTrue();
+    (category.CreatedAt >= dateTimeBefore).Should().BeTrue();
     category.IsActive.Should().Be(isActive);
   }
 

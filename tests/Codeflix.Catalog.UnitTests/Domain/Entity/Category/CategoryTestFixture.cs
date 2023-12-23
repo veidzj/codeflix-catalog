@@ -1,12 +1,15 @@
-﻿using Xunit;
+﻿using Codeflix.Catalog.UnitTests.Common;
+using Xunit;
 using DomainEntity = Codeflix.Catalog.Domain.Entity;
 
 namespace Codeflix.Catalog.UnitTests.Domain.Entity.Category;
-public class CategoryTestFixture
+public class CategoryTestFixture : BaseFixture
 {
-  public static DomainEntity.Category MakeValidCategory()
+  public CategoryTestFixture() : base() { }
+
+  public DomainEntity.Category MakeValidCategory()
   {
-    return new("Category Name", "Category Description");
+    return new(this.Faker.Commerce.Categories(1)[0], this.Faker.Commerce.ProductDescription());
   }
 }
 

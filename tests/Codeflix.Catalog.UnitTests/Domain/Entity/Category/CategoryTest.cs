@@ -173,12 +173,12 @@ public class CategoryTest
   public void UpdateOnlyName()
   {
     DomainEntity.Category validCategory = this.categoryTestFixture.MakeValidCategory();
-    DomainEntity.Category categoryWithNewValues = this.categoryTestFixture.MakeValidCategory();
+    string newName = this.categoryTestFixture.MakeValidCategoryName();
     string currentDescription = validCategory.Description;
 
-    validCategory.Update(categoryWithNewValues.Name);
+    validCategory.Update(newName);
 
-    validCategory.Name.Should().Be(categoryWithNewValues.Name);
+    validCategory.Name.Should().Be(newName);
     validCategory.Description.Should().Be(currentDescription);
   }
 
@@ -228,7 +228,11 @@ public class CategoryTest
   public void UpdateThrowWhenDescriptionIsGreaterThan10_000Characters()
   {
     DomainEntity.Category validCategory = this.categoryTestFixture.MakeValidCategory();
-    string invalidDescription = this.categoryTestFixture.Faker.Lorem.Letter(10_001);
+    string invalidDescription = this.categoryTestFixture.Faker.Commerce.ProductDescription();
+    while (invalidDescription.Length <= 10_000)
+    {
+      invalidDescription = $"{invalidDescription} {this.categoryTestFixture.Faker.Commerce.ProductDescription()}";
+    }
 
     Action action = () => validCategory.Update("New Name", invalidDescription);
 

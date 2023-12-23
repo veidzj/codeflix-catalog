@@ -9,12 +9,13 @@ public class CategoryTestFixture : BaseFixture
 
   public DomainEntity.Category MakeValidCategory()
   {
-    return new(this.MakeValidCategoryName(), this.Faker.Commerce.ProductDescription());
+    return new(this.MakeValidCategoryName(), this.MakeValidCategoryDescription());
   }
 
   public string MakeValidCategoryName()
   {
     string categoryName = "";
+
     while (categoryName.Length < 3)
     {
       categoryName = this.Faker.Commerce.Categories(1)[0];
@@ -30,13 +31,14 @@ public class CategoryTestFixture : BaseFixture
 
   public string MakeValidCategoryDescription()
   {
-    string categoryName = "";
-    while (categoryName.Length < 3)
+    string categoryDescription = this.Faker.Commerce.ProductDescription();
+
+    if (categoryDescription.Length > 10_000)
     {
-      categoryName = this.Faker.Commerce.Categories(1)[0];
+      categoryDescription = categoryDescription[..10_000];
     }
 
-    return categoryName;
+    return categoryDescription;
   }
 }
 

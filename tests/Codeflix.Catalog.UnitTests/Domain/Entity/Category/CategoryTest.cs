@@ -1,6 +1,7 @@
 ﻿using Codeflix.Catalog.Domain.Exceptions;
 using FluentAssertions;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 using DomainEntity = Codeflix.Catalog.Domain.Entity;
@@ -11,6 +12,19 @@ namespace Codeflix.Catalog.UnitTests.Domain.Entity.Category;
 public class CategoryTest
 {
   private readonly CategoryTestFixture categoryTestFixture = new();
+
+  public static IEnumerable<object[]> MakeNameWithLessThan3Characters(int numberOfTests)
+  {
+    CategoryTestFixture categoryTestFixture = new();
+    for (int i = 0; i < numberOfTests; i++)
+    {
+      bool isEven = i % 2 == 0;
+      yield return new object[]
+      {
+        categoryTestFixture.MakeValidCategoryName()[..(isEven ? 1 : 2)]
+      };
+    }
+  }
 
   [Fact(DisplayName = nameof(InstantiateWithDefaultValues))]
   [Trait("Domain", "Category - Aggregates")]
@@ -85,10 +99,7 @@ public class CategoryTest
 
   [Theory(DisplayName = nameof(InstantiateThrowWhenNameIsLessThan3Characters))]
   [Trait("Domain", "Category - Aggregates")]
-  [InlineData("1")]
-  [InlineData("12")]
-  [InlineData("a")]
-  [InlineData("ab")]
+  [MemberData(nameof(MakeNameWithLessThan3Characters), parameters: 10)]
   public void InstantiateThrowWhenNameIsLessThan3Characters(string invalidName)
   {
     DomainEntity.Category validCategory = this.categoryTestFixture.MakeValidCategory();
@@ -198,10 +209,7 @@ public class CategoryTest
 
   [Theory(DisplayName = nameof(UpdateThrowWhenNameIsLessThan3Characters))]
   [Trait("Domain", "Category - Aggregates")]
-  [InlineData("1")]
-  [InlineData("12")]
-  [InlineData("a")]
-  [InlineData("ab")]
+  [MemberData(nameof(MakeNameWithLessThan3Characters), parameters: 10)]
   public void UpdateThrowWhenNameIsLessThan3Characters(string invalidName)
   {
     DomainEntity.Category validCategory = this.categoryTestFixture.MakeValidCategory();

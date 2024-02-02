@@ -1,4 +1,5 @@
 ﻿using Bogus;
+using Codeflix.Catalog.Domain.Exceptions;
 using Codeflix.Catalog.Domain.Validation;
 using FluentAssertions;
 using System;
@@ -14,7 +15,16 @@ public class DomainValidationTest
   public void NotNullDoesNotThrowsOnSuccess()
   {
     string value = this.Faker.Commerce.ProductName();
-    Action action = () => DomainValidation.NotNull(value, "Value");
+    Action action = () => DomainValidation.NotNull(value, "FieldName");
     action.Should().NotThrow();
+  }
+
+  [Fact(DisplayName = nameof(NotNullThrowsWhenNull))]
+  [Trait("Domain", "DomainValidation - Validation")]
+  public void NotNullThrowsWhenNull()
+  {
+    string? value = null;
+    Action action = () => DomainValidation.NotNull(value, "FieldName");
+    action.Should().Throw<EntityValidationException>().WithMessage("FieldName should not be null");
   }
 }

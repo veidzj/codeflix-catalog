@@ -17,11 +17,26 @@ public class DomainValidationTest
     for (int i = 0; i < numberOfTests; i++)
     {
       string value = faker.Commerce.ProductName();
-      int minLength = value.Length + new Random().Next(1, 20);
+      int minLength = value.Length + new Random().Next(0, 20);
       yield return new object[]
       {
         value,
         minLength
+      };
+    }
+  }
+
+  public static IEnumerable<object[]> MakeValuesLessThanMax(int numberOfTests = 5)
+  {
+    Faker faker = new();
+    for (int i = 0; i < numberOfTests; i++)
+    {
+      string value = faker.Commerce.ProductName();
+      int maxLength = value.Length + new Random().Next(0, 5);
+      yield return new object[]
+      {
+        value,
+        maxLength
       };
     }
   }
@@ -32,7 +47,7 @@ public class DomainValidationTest
     for (int i = 0; i < numberOfTests; i++)
     {
       string value = faker.Commerce.ProductName();
-      int minLength = value.Length - new Random().Next(1, 5);
+      int minLength = value.Length - new Random().Next(0, 5);
       yield return new object[]
       {
         value,
@@ -47,7 +62,7 @@ public class DomainValidationTest
     for (int i = 0; i < numberOfTests; i++)
     {
       string value = faker.Commerce.ProductName();
-      int maxLength = value.Length - new Random().Next(1, 5);
+      int maxLength = value.Length - new Random().Next(0, 5);
       yield return new object[]
       {
         value,
@@ -119,5 +134,14 @@ public class DomainValidationTest
   {
     Action action = () => DomainValidation.MaxLength(target, maxLength, "FieldName");
     action.Should().Throw<EntityValidationException>().WithMessage($"FieldName should not be greater than {maxLength} characters long");
+  }
+
+  [Theory(DisplayName = nameof(MaxLengthDoesNotThrowsOnSuccess))]
+  [Trait("Domain", "DomainValidation - Validation")]
+  [MemberData(nameof(MakeValuesLessThanMax), parameters: 10)]
+  public void MaxLengthDoesNotThrowsOnSuccess(string target, int maxLength)
+  {
+    Action action = () => DomainValidation.MaxLength(target, maxLength, "FieldName");
+    action.Should().NotThrow();
   }
 }

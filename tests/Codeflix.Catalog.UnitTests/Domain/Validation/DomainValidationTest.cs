@@ -16,11 +16,26 @@ public class DomainValidationTest
     Faker faker = new();
     for (int i = 0; i < numberOfTests; i++)
     {
-      string example = faker.Commerce.ProductName();
-      int minLength = example.Length + new Random().Next(1, 20);
+      string value = faker.Commerce.ProductName();
+      int minLength = value.Length + new Random().Next(1, 20);
       yield return new object[]
       {
-        example,
+        value,
+        minLength
+      };
+    }
+  }
+
+  public static IEnumerable<object[]> MakeValuesGreaterThanMin(int numberOfTests = 5)
+  {
+    Faker faker = new();
+    for (int i = 0; i < numberOfTests; i++)
+    {
+      string value = faker.Commerce.ProductName();
+      int minLength = value.Length - new Random().Next(1, 5);
+      yield return new object[]
+      {
+        value,
         minLength
       };
     }
@@ -71,5 +86,14 @@ public class DomainValidationTest
   {
     Action action = () => DomainValidation.MinLength(target, minLength, "FieldName");
     action.Should().Throw<EntityValidationException>().WithMessage($"FieldName should not be less than {minLength} characters long");
-  }  
+  }
+
+  [Theory(DisplayName = nameof(MinLengthDoesNotThrowsOnSuccess))]
+  [Trait("Domain", "DomainValidation - Validation")]
+  [MemberData(nameof(MakeValuesGreaterThanMin), parameters: 10)]
+  public void MinLengthDoesNotThrowsOnSuccess(string target, int minLength)
+  {
+    Action action = () => DomainValidation.MinLength(target, minLength, "FieldName");
+    action.Should().NotThrow();
+  }
 }

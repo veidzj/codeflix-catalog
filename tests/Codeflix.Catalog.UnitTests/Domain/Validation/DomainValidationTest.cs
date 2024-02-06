@@ -17,7 +17,7 @@ public class DomainValidationTest
     for (int i = 0; i < numberOfTests; i++)
     {
       string value = faker.Commerce.ProductName();
-      int minLength = value.Length + new Random().Next(0, 20);
+      int minLength = value.Length + new Random().Next(1, 20);
       yield return new object[]
       {
         value,

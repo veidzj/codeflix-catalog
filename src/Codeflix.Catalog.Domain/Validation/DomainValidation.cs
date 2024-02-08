@@ -23,7 +23,7 @@ public class DomainValidation
   {
     if (target.Length < minLength)
     {
-      throw new EntityValidationException($"{fieldName} should be at least {minLength} characters long" );
+      throw new EntityValidationException($"{fieldName} should be at least {minLength} characters long");
     }
   }
 

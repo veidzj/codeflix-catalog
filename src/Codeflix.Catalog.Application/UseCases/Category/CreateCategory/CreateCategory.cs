@@ -21,6 +21,6 @@ public class CreateCategory : ICreateCategory
     DomainEntity.Category category = new(input.Name, input.Description, input.IsActive);
     await this.categoryRepository.Insert(category, cancellationToken);
     await this.unitOfWork.Commit(cancellationToken);
-    return new CreateCategoryOutput(category.Id, category.Name, category.Description, category.IsActive, category.CreatedAt);
+    return CreateCategoryOutput.FromCategory(category);
   }
 }

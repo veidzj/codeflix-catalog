@@ -93,6 +93,19 @@ public class CreateCategoryTest
       invalidInputDescriptionNull,
       "Description should not be null"
     ]);
+
+    CreateCategoryInput invalidInputLongDescription = fixture.MakeInput();
+    string longDescription = fixture.Faker.Commerce.ProductDescription();
+    while (longDescription.Length <= 10_000)
+    {
+      longDescription = $"{longDescription} {fixture.Faker.Commerce.ProductDescription()}";
+    }
+    invalidInputLongDescription.Description = longDescription;
+    invalidInputs.Add(
+    [
+      invalidInputLongDescription,
+      "Description should be less or equal 10000 characters long"
+    ]);
     return invalidInputs;
   }
 }

@@ -11,7 +11,7 @@ public class DomainValidationTest
 {
   private Faker Faker { get; set; } = new Faker();
 
-  public static IEnumerable<object[]> MakeValuesLessThanMin(int numberOfTests = 5)
+  public static IEnumerable<object[]> GetValuesLessThanMin(int numberOfTests = 5)
   {
     Faker faker = new();
     for (int i = 0; i < numberOfTests; i++)
@@ -26,7 +26,7 @@ public class DomainValidationTest
     }
   }
 
-  public static IEnumerable<object[]> MakeValuesLessThanMax(int numberOfTests = 5)
+  public static IEnumerable<object[]> GetValuesLessThanMax(int numberOfTests = 5)
   {
     Faker faker = new();
     for (int i = 0; i < numberOfTests; i++)
@@ -41,7 +41,7 @@ public class DomainValidationTest
     }
   }
 
-  public static IEnumerable<object[]> MakeValuesGreaterThanMin(int numberOfTests = 5)
+  public static IEnumerable<object[]> GetValuesGreaterThanMin(int numberOfTests = 5)
   {
     Faker faker = new();
     for (int i = 0; i < numberOfTests; i++)
@@ -56,7 +56,7 @@ public class DomainValidationTest
     }
   }
 
-  public static IEnumerable<object[]> MakeValuesGreaterThanMax(int numberOfTests = 5)
+  public static IEnumerable<object[]> GetValuesGreaterThanMax(int numberOfTests = 5)
   {
     Faker faker = new();
     for (int i = 0; i < numberOfTests; i++)
@@ -123,7 +123,7 @@ public class DomainValidationTest
 
   [Theory(DisplayName = nameof(MinLengthThrowsWhenLess))]
   [Trait("Domain", "DomainValidation - Validation")]
-  [MemberData(nameof(MakeValuesLessThanMin), parameters: 10)]
+  [MemberData(nameof(GetValuesLessThanMin), parameters: 10)]
   public void MinLengthThrowsWhenLess(string target, int minLength)
   {
     string fieldName = this.Faker.Commerce.ProductName().Replace(" ", "");
@@ -135,7 +135,7 @@ public class DomainValidationTest
 
   [Theory(DisplayName = nameof(MinLengthDoesNotThrowsOnSuccess))]
   [Trait("Domain", "DomainValidation - Validation")]
-  [MemberData(nameof(MakeValuesGreaterThanMin), parameters: 10)]
+  [MemberData(nameof(GetValuesGreaterThanMin), parameters: 10)]
   public void MinLengthDoesNotThrowsOnSuccess(string target, int minLength)
   {
     string fieldName = this.Faker.Commerce.ProductName().Replace(" ", "");
@@ -147,7 +147,7 @@ public class DomainValidationTest
 
   [Theory(DisplayName = nameof(MaxLengthThrowsWhenGreater))]
   [Trait("Domain", "DomainValidation - Validation")]
-  [MemberData(nameof(MakeValuesGreaterThanMax), parameters: 10)]
+  [MemberData(nameof(GetValuesGreaterThanMax), parameters: 10)]
   public void MaxLengthThrowsWhenGreater(string target, int maxLength)
   {
     string fieldName = this.Faker.Commerce.ProductName().Replace(" ", "");
@@ -159,7 +159,7 @@ public class DomainValidationTest
 
   [Theory(DisplayName = nameof(MaxLengthDoesNotThrowsOnSuccess))]
   [Trait("Domain", "DomainValidation - Validation")]
-  [MemberData(nameof(MakeValuesLessThanMax), parameters: 10)]
+  [MemberData(nameof(GetValuesLessThanMax), parameters: 10)]
   public void MaxLengthDoesNotThrowsOnSuccess(string target, int maxLength)
   {
     string fieldName = this.Faker.Commerce.ProductName().Replace(" ", "");

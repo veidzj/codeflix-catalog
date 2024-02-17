@@ -7,12 +7,12 @@ public class CategoryTestFixture : BaseFixture
 {
   public CategoryTestFixture() : base() { }
 
-  public DomainEntity.Category MakeValidCategory()
+  public DomainEntity.Category GetValidCategory()
   {
-    return new(this.MakeValidCategoryName(), this.MakeValidCategoryDescription());
+    return new(this.GetValidCategoryName(), this.GetValidCategoryDescription());
   }
 
-  public string MakeValidCategoryName()
+  public string GetValidCategoryName()
   {
     string categoryName = "";
 
@@ -29,7 +29,7 @@ public class CategoryTestFixture : BaseFixture
     return categoryName;
   }
 
-  public string MakeValidCategoryDescription()
+  public string GetValidCategoryDescription()
   {
     string categoryDescription = this.Faker.Commerce.ProductDescription();
 

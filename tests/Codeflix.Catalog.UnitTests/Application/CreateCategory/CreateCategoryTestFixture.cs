@@ -9,7 +9,7 @@ using Xunit;
 namespace Codeflix.Catalog.UnitTests.Application.CreateCategory;
 public class CreateCategoryTestFixture : BaseFixture
 {
-  public string MakeValidCategoryName()
+  public string GetValidCategoryName()
   {
     string categoryName = "";
 
@@ -26,7 +26,7 @@ public class CreateCategoryTestFixture : BaseFixture
     return categoryName;
   }
 
-  public string MakeValidCategoryDescription()
+  public string GetValidCategoryDescription()
   {
     string categoryDescription = this.Faker.Commerce.ProductDescription();
 
@@ -38,22 +38,22 @@ public class CreateCategoryTestFixture : BaseFixture
     return categoryDescription;
   }
 
-  public bool MakeRandomBoolean()
+  public bool GetRandomBoolean()
   {
     return new Random().NextDouble() < 0.5;
   }
 
-  public CreateCategoryInput MakeInput()
+  public CreateCategoryInput GetInput()
   {
-    return new(this.MakeValidCategoryName(), this.MakeValidCategoryDescription(), this.MakeRandomBoolean());
+    return new(this.GetValidCategoryName(), this.GetValidCategoryDescription(), this.GetRandomBoolean());
   }
 
-  public Mock<ICategoryRepository> MakeRepositoryMock()
+  public Mock<ICategoryRepository> GetRepositoryMock()
   {
     return new();
   }
 
-  public Mock<IUnitOfWork> MakeUnitOfWorkMock()
+  public Mock<IUnitOfWork> GetUnitOfWorkMock()
   {
     return new();
   }

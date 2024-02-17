@@ -84,6 +84,15 @@ public class CreateCategoryTest
       invalidInputLongName,
       "Name should be less or equal 255 characters long"
     ]);
+
+    CreateCategoryInput invalidInputDescriptionNull = fixture.MakeInput();
+    invalidInputDescriptionNull.Description = null!;
+    invalidInputLongName.Name = longName;
+    invalidInputs.Add(
+    [
+      invalidInputDescriptionNull,
+      "Description should not be null"
+    ]);
     return invalidInputs;
   }
 }

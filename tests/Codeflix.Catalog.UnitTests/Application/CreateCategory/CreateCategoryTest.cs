@@ -66,6 +66,27 @@ public class CreateCategoryTest
     output.CreatedAt.Should().NotBeSameDateAs(default);
   }
 
+  [Fact(DisplayName = nameof(CreateCategoryWithOnlyNameAndDescription))]
+  [Trait("Application", "CreateCategory - Use Cases")]
+  public async void CreateCategoryWithOnlyNameAndDescription()
+  {
+    Mock<ICategoryRepository> repositoryMock = this.fixture.MakeRepositoryMock();
+    Mock<IUnitOfWork> unitOfWorkMock = this.fixture.MakeUnitOfWorkMock();
+    UseCases.CreateCategory useCase = new(repositoryMock.Object, unitOfWorkMock.Object);
+    UseCases.CreateCategoryInput input = new(this.fixture.MakeValidCategoryName(), this.fixture.MakeValidCategoryDescription());
+
+    UseCases.CreateCategoryOutput output = await useCase.Handle(input, CancellationToken.None);
+
+    repositoryMock.Verify(repository => repository.Insert(It.IsAny<Category>(), It.IsAny<CancellationToken>()), Times.Once);
+    unitOfWorkMock.Verify(unityOfWork => unityOfWork.Commit(It.IsAny<CancellationToken>()), Times.Once);
+    output.Should().NotBeNull();
+    output.Name.Should().Be(input.Name);
+    output.Description.Should().Be(input.Description);
+    output.IsActive.Should().BeTrue();
+    output.Id.Should().NotBeEmpty();
+    output.CreatedAt.Should().NotBeSameDateAs(default);
+  }
+
   [Theory(DisplayName = nameof(ThrowWhenInstantiateAggregateThrows))]
   [Trait("Application", "CreateCategory - Use Cases")]
   [MemberData(nameof(MakeInvalidInputs))]

@@ -1,9 +1,14 @@
 ﻿using Codeflix.Catalog.Application.Interfaces;
+using Codeflix.Catalog.Application.UseCases.Category.CreateCategory;
 using Codeflix.Catalog.Domain.Entity;
+using Codeflix.Catalog.Domain.Exceptions;
 using Codeflix.Catalog.Domain.Repository;
 using FluentAssertions;
 using Moq;
+using System;
+using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
 using Xunit;
 using UseCases = Codeflix.Catalog.Application.UseCases.Category.CreateCategory;
 
@@ -38,5 +43,47 @@ public class CreateCategoryTest
     output.IsActive.Should().Be(input.IsActive);
     output.Id.Should().NotBeEmpty();
     output.CreatedAt.Should().NotBeSameDateAs(default);
+  }
+
+  [Theory(DisplayName = nameof(ThrowWhenInstantiateAggregateThrows))]
+  [Trait("Application", "CreateCategory - Use Cases")]
+  [MemberData(nameof(MakeInvalidInputs))]
+  public async void ThrowWhenInstantiateAggregateThrows(CreateCategoryInput input, string exceptionMessage)
+  {
+    Mock<ICategoryRepository> repositoryMock = this.fixture.MakeRepositoryMock();
+    Mock<IUnitOfWork> unitOfWorkMock = this.fixture.MakeUnitOfWorkMock();
+    UseCases.CreateCategory useCase = new(repositoryMock.Object, unitOfWorkMock.Object);
+
+    Func<Task> task = async () => await useCase.Handle(input, CancellationToken.None);
+
+    await task.Should().ThrowAsync<EntityValidationException>().WithMessage(exceptionMessage);
+  }
+
+  public static IEnumerable<object[]> MakeInvalidInputs()
+  {
+    CreateCategoryTestFixture fixture = new();
+    List<object[]> invalidInputs = [];
+
+    CreateCategoryInput invalidInputShortName = fixture.MakeInput();
+    invalidInputShortName.Name = invalidInputShortName.Name[..2];
+    invalidInputs.Add(
+    [
+      invalidInputShortName,
+      "Name should be at least 3 characters long"
+    ]);
+
+    CreateCategoryInput invalidInputLongName = fixture.MakeInput();
+    string longName = fixture.Faker.Commerce.ProductName();
+    while (longName.Length <= 255)
+    {
+      longName = $"{longName} {fixture.Faker.Commerce.ProductName()}";
+    }
+    invalidInputLongName.Name = longName;
+    invalidInputs.Add(
+    [
+      invalidInputLongName,
+      "Name should be less or equal 255 characters long"
+    ]);
+    return invalidInputs;
   }
 }

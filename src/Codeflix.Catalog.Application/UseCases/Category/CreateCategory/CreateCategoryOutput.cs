@@ -21,6 +21,6 @@ public class CreateCategoryOutput
 
   public static CreateCategoryOutput FromCategory(DomainEntity.Category category)
   {
-    return new CreateCategoryOutput(category.Id, category.Name, category.Description, category.IsActive, category.CreatedAt);
+    return new(category.Id, category.Name, category.Description, category.IsActive, category.CreatedAt);
   }
 }

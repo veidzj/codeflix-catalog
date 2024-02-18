@@ -1,10 +1,9 @@
 ﻿using Codeflix.Catalog.Domain.Repository;
-using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Codeflix.Catalog.Application.UseCases.Category.GetCategory;
-public class GetCategory : IRequestHandler<GetCategoryInput, GetCategoryOutput>
+public class GetCategory : IGetCategory
 {
   private readonly ICategoryRepository categoryRepository;
 

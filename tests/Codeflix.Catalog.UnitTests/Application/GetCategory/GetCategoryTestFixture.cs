@@ -47,5 +47,5 @@ public class GetCategoryTestFixture : BaseFixture
   }
 }
 
-[CollectionDefinition(nameof(GetCategoryTestFixtureCollection))]
+[CollectionDefinition(nameof(GetCategoryTestFixture))]
 public class GetCategoryTestFixtureCollection : ICollectionFixture<GetCategoryTestFixture> { }

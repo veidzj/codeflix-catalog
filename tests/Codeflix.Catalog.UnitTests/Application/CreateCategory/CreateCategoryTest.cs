@@ -1,4 +1,5 @@
 ﻿using Codeflix.Catalog.Application.Interfaces;
+using Codeflix.Catalog.Application.UseCases.Category.Common;
 using Codeflix.Catalog.Application.UseCases.Category.CreateCategory;
 using Codeflix.Catalog.Domain.Entity;
 using Codeflix.Catalog.Domain.Exceptions;
@@ -32,7 +33,7 @@ public class CreateCategoryTest
     UseCases.CreateCategory useCase = new(repositoryMock.Object, unitOfWorkMock.Object);
     UseCases.CreateCategoryInput input = this.fixture.GetInput();
 
-    UseCases.CreateCategoryOutput output = await useCase.Handle(input, CancellationToken.None);
+    CategoryModelOutput output = await useCase.Handle(input, CancellationToken.None);
 
     repositoryMock.Verify(repository => repository.Insert(It.IsAny<Category>(), It.IsAny<CancellationToken>()), Times.Once);
     unitOfWorkMock.Verify(unityOfWork => unityOfWork.Commit(It.IsAny<CancellationToken>()), Times.Once);
@@ -53,7 +54,7 @@ public class CreateCategoryTest
     UseCases.CreateCategory useCase = new(repositoryMock.Object, unitOfWorkMock.Object);
     UseCases.CreateCategoryInput input = new(this.fixture.GetValidCategoryName());
 
-    UseCases.CreateCategoryOutput output = await useCase.Handle(input, CancellationToken.None);
+    CategoryModelOutput output = await useCase.Handle(input, CancellationToken.None);
 
     repositoryMock.Verify(repository => repository.Insert(It.IsAny<Category>(), It.IsAny<CancellationToken>()), Times.Once);
     unitOfWorkMock.Verify(unityOfWork => unityOfWork.Commit(It.IsAny<CancellationToken>()), Times.Once);
@@ -74,7 +75,7 @@ public class CreateCategoryTest
     UseCases.CreateCategory useCase = new(repositoryMock.Object, unitOfWorkMock.Object);
     UseCases.CreateCategoryInput input = new(this.fixture.GetValidCategoryName(), this.fixture.GetValidCategoryDescription());
 
-    UseCases.CreateCategoryOutput output = await useCase.Handle(input, CancellationToken.None);
+    CategoryModelOutput output = await useCase.Handle(input, CancellationToken.None);
 
     repositoryMock.Verify(repository => repository.Insert(It.IsAny<Category>(), It.IsAny<CancellationToken>()), Times.Once);
     unitOfWorkMock.Verify(unityOfWork => unityOfWork.Commit(It.IsAny<CancellationToken>()), Times.Once);

@@ -1,4 +1,5 @@
-﻿using Codeflix.Catalog.Domain.Repository;
+﻿using Codeflix.Catalog.Application.UseCases.Category.Common;
+using Codeflix.Catalog.Domain.Repository;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -12,9 +13,9 @@ public class GetCategory : IGetCategory
     this.categoryRepository = categoryRepository;
   }
 
-  public async Task<GetCategoryOutput> Handle(GetCategoryInput input, CancellationToken cancellationToken)
+  public async Task<CategoryModelOutput> Handle(GetCategoryInput input, CancellationToken cancellationToken)
   {
     Domain.Entity.Category category = await this.categoryRepository.Get(input.Id, cancellationToken);
-    return GetCategoryOutput.FromCategory(category);
+    return CategoryModelOutput.FromCategory(category);
   }
 }

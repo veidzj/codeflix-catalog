@@ -1,4 +1,5 @@
-﻿using Codeflix.Catalog.Domain.Entity;
+﻿using Codeflix.Catalog.Application.UseCases.Category.Common;
+using Codeflix.Catalog.Domain.Entity;
 using Codeflix.Catalog.Domain.Repository;
 using FluentAssertions;
 using Moq;
@@ -30,7 +31,7 @@ public class GetCategoryTest
     UseCase.GetCategoryInput input = new(category.Id);
     UseCase.GetCategory useCase = new(repositoryMock.Object);
 
-    UseCase.GetCategoryOutput output = await useCase.Handle(input, CancellationToken.None);
+    CategoryModelOutput output = await useCase.Handle(input, CancellationToken.None);
 
     repositoryMock.Verify(x => x.Get(It.IsAny<Guid>(), It.IsAny<CancellationToken>()), Times.Once);
 

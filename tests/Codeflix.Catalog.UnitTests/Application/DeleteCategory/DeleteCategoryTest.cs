@@ -1,7 +1,10 @@
-﻿using Codeflix.Catalog.Application.Interfaces;
+﻿using Codeflix.Catalog.Application.Exceptions;
+using Codeflix.Catalog.Application.Interfaces;
 using Codeflix.Catalog.Domain.Entity;
 using Codeflix.Catalog.Domain.Repository;
+using FluentAssertions;
 using Moq;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
@@ -35,5 +38,23 @@ public class DeleteCategoryTest
     repositoryMock.Verify(x => x.Get(category.Id, It.IsAny<CancellationToken>()), Times.Once);
     repositoryMock.Verify(x => x.Delete(category, It.IsAny<CancellationToken>()), Times.Once);
     unitOfWorkMock.Verify(x => x.Commit(It.IsAny<CancellationToken>()), Times.Once);
+  }
+
+  [Fact(DisplayName = nameof(ThrowWhenCategoryNotFound))]
+  [Trait("Application", "DeleteCategory - Use Cases")]
+  public async Task ThrowWhenCategoryNotFound()
+  {
+    Mock<ICategoryRepository> repositoryMock = this.fixture.GetRepositoryMock();
+    Mock<IUnitOfWork> unitOfWorkMock = this.fixture.GetUnitOfWorkMock();
+    Guid guid = Guid.NewGuid();
+    repositoryMock.Setup(x => x.Get(guid, It.IsAny<CancellationToken>())).ThrowsAsync(new NotFoundException($"Category '${guid} not found"));
+    UseCase.DeleteCategoryInput input = new(guid);
+    UseCase.DeleteCategory useCase = new(repositoryMock.Object, unitOfWorkMock.Object);
+
+    Func<Task<MediatR.Unit>> task = async () => await useCase.Handle(input, CancellationToken.None);
+
+    await task.Should().ThrowAsync<NotFoundException>();
+
+    repositoryMock.Verify(x => x.Get(guid, It.IsAny<CancellationToken>()), Times.Once);
   }
 }

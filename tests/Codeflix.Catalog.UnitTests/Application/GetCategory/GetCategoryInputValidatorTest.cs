@@ -29,4 +29,19 @@ public class GetCategoryInputValidatorTest
     validationResult.IsValid.Should().BeTrue();
     validationResult.Errors.Should().HaveCount(0);
   }
+
+  [Fact(DisplayName = nameof(ValidationOk))]
+  [Trait("Application", "GetCategoryInputValidation - UseCases")]
+  public void ValidationErrorWhenEmptyId()
+  {
+    GetCategoryInput invalidInput = new(Guid.Empty);
+    GetCategoryInputValidator validator = new();
+
+    ValidationResult validationResult = validator.Validate(invalidInput);
+
+    validationResult.Should().NotBeNull();
+    validationResult.IsValid.Should().BeFalse();
+    validationResult.Errors.Should().HaveCount(1);
+    validationResult.Errors[0].ErrorMessage.Should().Be("'Id' must not be empty.");
+  }
 }

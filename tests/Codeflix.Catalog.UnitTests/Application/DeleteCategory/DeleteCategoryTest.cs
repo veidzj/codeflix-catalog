@@ -19,7 +19,7 @@ public class DeleteCategoryTest
     this.fixture = fixture;
   }
 
-  [Fact(DisplayName = "")]
+  [Fact(DisplayName = nameof(DeleteCategory))]
   [Trait("Application", "DeleteCategory - Use Cases")]
   public async Task DeleteCategory()
   {

@@ -1,5 +1,6 @@
 ﻿using Codeflix.Catalog.Application.Interfaces;
 using Codeflix.Catalog.Application.UseCases.Category.Common;
+using Codeflix.Catalog.Application.UseCases.Category.UpdateCategory;
 using Codeflix.Catalog.Domain.Entity;
 using Codeflix.Catalog.Domain.Repository;
 using FluentAssertions;
@@ -21,20 +22,18 @@ public class UpdateCategoryTest
     this.fixture = fixture;
   }
 
-  [Fact(DisplayName = nameof(UpdateCategory))]
+  [Theory(DisplayName = nameof(UpdateCategory))]
   [Trait("Application", "UpdateCategory - Use Cases")]
-  public async Task UpdateCategory()
+  [MemberData(
+    nameof(UpdateCategoryTestDataGenerator.GetCategoriesToUpdate),
+    parameters: 10,
+    MemberType = typeof(UpdateCategoryTestDataGenerator)
+  )]
+  public async Task UpdateCategory(Category category, UpdateCategoryInput input)
   {
     Mock<ICategoryRepository> repositoryMock = this.fixture.GetRepositoryMock();
     Mock<IUnitOfWork> unitOfWorkMock = this.fixture.GetUnitOfWorkMock();
-    Category category = this.fixture.GetCategory();
     repositoryMock.Setup(x => x.Get(category.Id, It.IsAny<CancellationToken>())).ReturnsAsync(category);
-    UseCase.UpdateCategoryInput input = new(
-      category.Id,
-      this.fixture.GetValidCategoryName(),
-      this.fixture.GetValidCategoryDescription(),
-      !category.IsActive
-    );
     UseCase.UpdateCategory useCase = new(repositoryMock.Object, unitOfWorkMock.Object);
 
     CategoryModelOutput output = await useCase.Handle(input, CancellationToken.None);

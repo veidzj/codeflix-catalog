@@ -1,4 +1,5 @@
 ﻿using Codeflix.Catalog.Application.Interfaces;
+using Codeflix.Catalog.Application.UseCases.Category.UpdateCategory;
 using Codeflix.Catalog.Domain.Entity;
 using Codeflix.Catalog.Domain.Repository;
 using Codeflix.Catalog.UnitTests.Common;
@@ -56,6 +57,16 @@ public class UpdateCategoryTestFixture : BaseFixture
   public Mock<IUnitOfWork> GetUnitOfWorkMock()
   {
     return new();
+  }
+
+  public UpdateCategoryInput GetValidInput(Guid? id = null)
+  {
+    return new(
+      id ?? Guid.NewGuid(),
+      this.GetValidCategoryName(),
+      this.GetValidCategoryDescription(),
+      this.GetRandomBoolean()
+    );
   }
 }
 

@@ -7,10 +7,10 @@ public class UpdateCategoryInput : IRequest<CategoryModelOutput>
 {
   public Guid Id { get; set; }
   public string Name { get; set; }
-  public string Description { get; set; }
+  public string? Description { get; set; }
   public bool? IsActive { get; set; }
 
-  public UpdateCategoryInput(Guid id, string name, string description, bool? isActive = null)
+  public UpdateCategoryInput(Guid id, string name, string? description = null, bool? isActive = null)
   {
     this.Id = id;
     this.Name = name;

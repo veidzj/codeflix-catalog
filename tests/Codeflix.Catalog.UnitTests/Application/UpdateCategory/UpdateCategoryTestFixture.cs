@@ -68,6 +68,37 @@ public class UpdateCategoryTestFixture : BaseFixture
       this.GetRandomBoolean()
     );
   }
+
+  public UpdateCategoryInput GetInvalidInputShortName()
+  {
+    UpdateCategoryInput invalidInputShortName = this.GetValidInput();
+    invalidInputShortName.Name = invalidInputShortName.Name[..2];
+    return invalidInputShortName;
+  }
+
+  public UpdateCategoryInput GetInvalidInputLongName()
+  {
+    UpdateCategoryInput invalidInputLongName = this.GetValidInput();
+    string longName = this.Faker.Commerce.ProductName();
+    while (longName.Length <= 255)
+    {
+      longName = $"{longName} {this.Faker.Commerce.ProductName()}";
+    }
+    invalidInputLongName.Name = longName;
+    return invalidInputLongName;
+  }
+
+  public UpdateCategoryInput GetInvalidInputLongDescription()
+  {
+    UpdateCategoryInput invalidInputLongDescription = this.GetValidInput();
+    string longDescription = this.Faker.Commerce.ProductDescription();
+    while (longDescription.Length <= 10_000)
+    {
+      longDescription = $"{longDescription} {this.Faker.Commerce.ProductDescription()}";
+    }
+    invalidInputLongDescription.Description = longDescription;
+    return invalidInputLongDescription;
+  }
 }
 
 [CollectionDefinition(nameof(UpdateCategoryTestFixture))]

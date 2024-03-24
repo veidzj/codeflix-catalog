@@ -67,7 +67,33 @@ public class UpdateCategoryTest
     CategoryModelOutput output = await useCase.Handle(input, CancellationToken.None);
 
     output.Should().NotBeNull();
-    output.Name.Should().Be(input.Name);
+    output.Name.Should().Be(inputWithoutIsActive.Name);
+    output.Description.Should().Be(inputWithoutIsActive.Description);
+    output.IsActive.Should().Be((bool)input.IsActive!);
+    repositoryMock.Verify(x => x.Get(category.Id, It.IsAny<CancellationToken>()), Times.Once);
+    repositoryMock.Verify(x => x.Update(category, It.IsAny<CancellationToken>()), Times.Once);
+    unitOfWorkMock.Verify(x => x.Commit(It.IsAny<CancellationToken>()), Times.Once);
+  }
+
+  [Theory(DisplayName = nameof(UpdateCategoryOnlyName))]
+  [Trait("Application", "UpdateCategory - Use Cases")]
+  [MemberData(
+    nameof(UpdateCategoryTestDataGenerator.GetCategoriesToUpdate),
+    parameters: 10,
+    MemberType = typeof(UpdateCategoryTestDataGenerator)
+  )]
+  public async Task UpdateCategoryOnlyName(Category category, UpdateCategoryInput input)
+  {
+    UpdateCategoryInput inputOnlyName = new(input.Id, input.Name);
+    Mock<ICategoryRepository> repositoryMock = this.fixture.GetRepositoryMock();
+    Mock<IUnitOfWork> unitOfWorkMock = this.fixture.GetUnitOfWorkMock();
+    repositoryMock.Setup(x => x.Get(category.Id, It.IsAny<CancellationToken>())).ReturnsAsync(category);
+    UseCase.UpdateCategory useCase = new(repositoryMock.Object, unitOfWorkMock.Object);
+
+    CategoryModelOutput output = await useCase.Handle(input, CancellationToken.None);
+
+    output.Should().NotBeNull();
+    output.Name.Should().Be(inputOnlyName.Name);
     output.Description.Should().Be(input.Description);
     output.IsActive.Should().Be((bool)input.IsActive!);
     repositoryMock.Verify(x => x.Get(category.Id, It.IsAny<CancellationToken>()), Times.Once);
@@ -85,7 +111,7 @@ public class UpdateCategoryTest
     repositoryMock.Setup(x => x.Get(input.Id, It.IsAny<CancellationToken>())).ThrowsAsync(new NotFoundException($"category '{input.Id}' not found"));
     UseCase.UpdateCategory useCase = new(repositoryMock.Object, unitOfWorkMock.Object);
 
-    Func<Task> task = async() => await useCase.Handle(input, CancellationToken.None);
+    Func<Task> task = async () => await useCase.Handle(input, CancellationToken.None);
 
     await task.Should().ThrowAsync<NotFoundException>();
 

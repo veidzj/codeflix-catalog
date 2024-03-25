@@ -30,4 +30,18 @@ public class UpdateCategoryInputValidatorTest
     validationResult.Errors.Should().HaveCount(1);
     validationResult.Errors[0].ErrorMessage.Should().Be("'Id' must not be empty.");
   }
+
+  [Fact(DisplayName = nameof(ValidateWhenValid))]
+  [Trait("Application", "UpdateCategoryInputValidator - Use Cases")]
+  public void ValidateWhenValid()
+  {
+    UpdateCategoryInput input = this.fixture.GetValidInput();
+    UpdateCategoryInputValidator validator = new();
+
+    ValidationResult validationResult = validator.Validate(input);
+
+    validationResult.Should().NotBeNull();
+    validationResult.IsValid.Should().BeTrue();
+    validationResult.Errors.Should().HaveCount(0);
+  }
 }

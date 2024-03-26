@@ -1,56 +1,15 @@
 ﻿using Codeflix.Catalog.Application.UseCases.Category.ListCategories;
 using Codeflix.Catalog.Domain.Entity;
-using Codeflix.Catalog.Domain.Repository;
 using Codeflix.Catalog.Domain.SeedWork.SearchableRepository;
-using Codeflix.Catalog.UnitTests.Common;
-using Moq;
+using Codeflix.Catalog.UnitTests.Application.Common;
 using System;
 using System.Collections.Generic;
 using Xunit;
 
 namespace Codeflix.Catalog.UnitTests.Application.ListCategories;
 
-public class ListCategoriesTestFixture : BaseFixture
+public class ListCategoriesTestFixture : CategoryUseCasesBaseFixture
 {
-  public string GetValidCategoryName()
-  {
-    string categoryName = "";
-
-    while (categoryName.Length < 3)
-    {
-      categoryName = this.Faker.Commerce.Categories(1)[0];
-    }
-
-    if (categoryName.Length > 255)
-    {
-      categoryName = categoryName[..255];
-    }
-
-    return categoryName;
-  }
-
-  public string GetValidCategoryDescription()
-  {
-    string categoryDescription = this.Faker.Commerce.ProductDescription();
-
-    if (categoryDescription.Length > 10_000)
-    {
-      categoryDescription = categoryDescription[..10_000];
-    }
-
-    return categoryDescription;
-  }
-
-  public bool GetRandomBoolean()
-  {
-    return new Random().NextDouble() < 0.5;
-  }
-
-  public Category GetCategory()
-  {
-    return new(this.GetValidCategoryName(), this.GetValidCategoryDescription(), this.GetRandomBoolean());
-  }
-
   public List<Category> GetCategoriesList(int length = 10)
   {
     List<Category> list = [];
@@ -71,11 +30,6 @@ public class ListCategoriesTestFixture : BaseFixture
       sort: this.Faker.Commerce.ProductName(),
       dir: random.Next(0, 10) > 5 ? SearchOrder.Asc : SearchOrder.Desc
     );
-  }
-
-  public Mock<ICategoryRepository> GetRepositoryMock()
-  {
-    return new();
   }
 }
 

@@ -20,7 +20,7 @@ public class UpdateCategoryInputValidatorTest
   [Trait("Application", "UpdateCategoryInputValidator - Use Cases")]
   public void DontValidateWhenEmptyGuid()
   {
-    UpdateCategoryInput input = this.fixture.GetValidInput(Guid.Empty);
+    UpdateCategoryInput input = this.fixture.GetInput(Guid.Empty);
     UpdateCategoryInputValidator validator = new();
 
     ValidationResult validationResult = validator.Validate(input);
@@ -35,7 +35,7 @@ public class UpdateCategoryInputValidatorTest
   [Trait("Application", "UpdateCategoryInputValidator - Use Cases")]
   public void ValidateWhenValid()
   {
-    UpdateCategoryInput input = this.fixture.GetValidInput();
+    UpdateCategoryInput input = this.fixture.GetInput();
     UpdateCategoryInputValidator validator = new();
 
     ValidationResult validationResult = validator.Validate(input);

@@ -108,7 +108,7 @@ public class UpdateCategoryTest
   {
     Mock<ICategoryRepository> repositoryMock = this.fixture.GetRepositoryMock();
     Mock<IUnitOfWork> unitOfWorkMock = this.fixture.GetUnitOfWorkMock();
-    UpdateCategoryInput input = this.fixture.GetValidInput();
+    UpdateCategoryInput input = this.fixture.GetInput();
     repositoryMock.Setup(x => x.Get(input.Id, It.IsAny<CancellationToken>())).ThrowsAsync(new NotFoundException($"category '{input.Id}' not found"));
     UseCase.UpdateCategory useCase = new(repositoryMock.Object, unitOfWorkMock.Object);
 

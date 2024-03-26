@@ -27,7 +27,7 @@ public class GetCategoryTest
   public async Task GetCategory()
   {
     Mock<ICategoryRepository> repositoryMock = this.fixture.GetRepositoryMock();
-    Category category = this.fixture.GetValidCategory();
+    Category category = this.fixture.GetCategory();
     repositoryMock.Setup(x => x.Get(It.IsAny<Guid>(), It.IsAny<CancellationToken>())).ReturnsAsync(category);
     UseCase.GetCategoryInput input = new(category.Id);
     UseCase.GetCategory useCase = new(repositoryMock.Object);

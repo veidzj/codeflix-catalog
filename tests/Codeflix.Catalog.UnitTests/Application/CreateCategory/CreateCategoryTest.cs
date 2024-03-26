@@ -52,7 +52,7 @@ public class CreateCategoryTest
     Mock<ICategoryRepository> repositoryMock = this.fixture.GetRepositoryMock();
     Mock<IUnitOfWork> unitOfWorkMock = this.fixture.GetUnitOfWorkMock();
     UseCases.CreateCategory useCase = new(repositoryMock.Object, unitOfWorkMock.Object);
-    UseCases.CreateCategoryInput input = new(this.fixture.GetValidCategoryName());
+    CreateCategoryInput input = new(this.fixture.GetCategoryName());
 
     CategoryModelOutput output = await useCase.Handle(input, CancellationToken.None);
 
@@ -73,7 +73,7 @@ public class CreateCategoryTest
     Mock<ICategoryRepository> repositoryMock = this.fixture.GetRepositoryMock();
     Mock<IUnitOfWork> unitOfWorkMock = this.fixture.GetUnitOfWorkMock();
     UseCases.CreateCategory useCase = new(repositoryMock.Object, unitOfWorkMock.Object);
-    UseCases.CreateCategoryInput input = new(this.fixture.GetValidCategoryName(), this.fixture.GetValidCategoryDescription());
+    CreateCategoryInput input = new(this.fixture.GetCategoryName(), this.fixture.GetCategoryDescription());
 
     CategoryModelOutput output = await useCase.Handle(input, CancellationToken.None);
 

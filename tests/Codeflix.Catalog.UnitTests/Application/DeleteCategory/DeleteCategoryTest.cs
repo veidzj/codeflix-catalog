@@ -28,7 +28,7 @@ public class DeleteCategoryTest
   {
     Mock<ICategoryRepository> repositoryMock = this.fixture.GetRepositoryMock();
     Mock<IUnitOfWork> unitOfWorkMock = this.fixture.GetUnitOfWorkMock();
-    Category category = this.fixture.GetValidCategory();
+    Category category = this.fixture.GetCategory();
     repositoryMock.Setup(x => x.Get(category.Id, It.IsAny<CancellationToken>())).ReturnsAsync(category);
     UseCase.DeleteCategoryInput input = new(category.Id);
     UseCase.DeleteCategory useCase = new(repositoryMock.Object, unitOfWorkMock.Object);
@@ -51,7 +51,7 @@ public class DeleteCategoryTest
     UseCase.DeleteCategoryInput input = new(guid);
     UseCase.DeleteCategory useCase = new(repositoryMock.Object, unitOfWorkMock.Object);
 
-    Func<Task<MediatR.Unit>> task = async () => await useCase.Handle(input, CancellationToken.None);
+    Func<Task> task = async () => await useCase.Handle(input, CancellationToken.None);
 
     await task.Should().ThrowAsync<NotFoundException>();
 

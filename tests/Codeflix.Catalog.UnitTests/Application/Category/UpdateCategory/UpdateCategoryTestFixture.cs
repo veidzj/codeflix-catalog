@@ -1,9 +1,9 @@
 ﻿using Codeflix.Catalog.Application.UseCases.Category.UpdateCategory;
-using Codeflix.Catalog.UnitTests.Application.Common;
+using Codeflix.Catalog.UnitTests.Application.Category.Common;
 using System;
 using Xunit;
 
-namespace Codeflix.Catalog.UnitTests.Application.UpdateCategory;
+namespace Codeflix.Catalog.UnitTests.Application.Category.UpdateCategory;
 public class UpdateCategoryTestFixture : CategoryUseCasesBaseFixture
 {
   public UpdateCategoryInput GetInput(Guid? id = null)

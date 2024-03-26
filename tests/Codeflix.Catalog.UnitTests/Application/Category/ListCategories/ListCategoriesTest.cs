@@ -1,6 +1,5 @@
 ﻿using Codeflix.Catalog.Application.UseCases.Category.Common;
 using Codeflix.Catalog.Application.UseCases.Category.ListCategories;
-using Codeflix.Catalog.Domain.Entity;
 using Codeflix.Catalog.Domain.Repository;
 using Codeflix.Catalog.Domain.SeedWork.SearchableRepository;
 using FluentAssertions;
@@ -11,9 +10,10 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
+using DomainEntity = Codeflix.Catalog.Domain.Entity;
 using UseCase = Codeflix.Catalog.Application.UseCases.Category.ListCategories;
 
-namespace Codeflix.Catalog.UnitTests.Application.ListCategories;
+namespace Codeflix.Catalog.UnitTests.Application.Category.ListCategories;
 
 [Collection(nameof(ListCategoriesTestFixture))]
 public class ListCategoriesTest
@@ -29,10 +29,10 @@ public class ListCategoriesTest
   [Trait("Application", "ListCategories - Use Cases")]
   public async Task List()
   {
-    List<Category> categoriesList = this.fixture.GetCategoriesList();
+    List<DomainEntity.Category> categoriesList = this.fixture.GetCategoriesList();
     Mock<ICategoryRepository> repositoryMock = this.fixture.GetRepositoryMock();
     ListCategoriesInput input = this.fixture.GetListCategoriesInput();
-    SearchOutput<Category> outputRepositorySearch = new(
+    SearchOutput<DomainEntity.Category> outputRepositorySearch = new(
       currentPage: input.Page,
       perPage: input.PerPage,
       items: categoriesList,
@@ -58,7 +58,7 @@ public class ListCategoriesTest
     output.Items.Should().HaveCount(outputRepositorySearch.Items.Count);
     ((List<CategoryModelOutput>)output.Items).ForEach(outputItem =>
     {
-      Category? repositoryCategory = outputRepositorySearch.Items.FirstOrDefault(x => x.Id == outputItem.Id);
+      DomainEntity.Category? repositoryCategory = outputRepositorySearch.Items.FirstOrDefault(x => x.Id == outputItem.Id);
       outputItem.Should().NotBeNull();
       outputItem.Name.Should().Be(repositoryCategory!.Name);
       outputItem.Description.Should().Be(repositoryCategory.Description);
@@ -86,9 +86,9 @@ public class ListCategoriesTest
   )]
   public async Task ListInputWithoutParameters(ListCategoriesInput input)
   {
-    List<Category> categoriesList = this.fixture.GetCategoriesList();
+    List<DomainEntity.Category> categoriesList = this.fixture.GetCategoriesList();
     Mock<ICategoryRepository> repositoryMock = this.fixture.GetRepositoryMock();
-    SearchOutput<Category> outputRepositorySearch = new(
+    SearchOutput<DomainEntity.Category> outputRepositorySearch = new(
       currentPage: input.Page,
       perPage: input.PerPage,
       items: categoriesList,
@@ -114,7 +114,7 @@ public class ListCategoriesTest
     output.Items.Should().HaveCount(outputRepositorySearch.Items.Count);
     ((List<CategoryModelOutput>)output.Items).ForEach(outputItem =>
     {
-      Category? repositoryCategory = outputRepositorySearch.Items.FirstOrDefault(x => x.Id == outputItem.Id);
+      DomainEntity.Category? repositoryCategory = outputRepositorySearch.Items.FirstOrDefault(x => x.Id == outputItem.Id);
       outputItem.Should().NotBeNull();
       outputItem.Name.Should().Be(repositoryCategory!.Name);
       outputItem.Description.Should().Be(repositoryCategory.Description);
@@ -139,10 +139,10 @@ public class ListCategoriesTest
   {
     Mock<ICategoryRepository> repositoryMock = this.fixture.GetRepositoryMock();
     ListCategoriesInput input = this.fixture.GetListCategoriesInput();
-    SearchOutput<Category> outputRepositorySearch = new(
+    SearchOutput<DomainEntity.Category> outputRepositorySearch = new(
       currentPage: input.Page,
       perPage: input.PerPage,
-      items: new List<Category>().AsReadOnly(),
+      items: new List<DomainEntity.Category>().AsReadOnly(),
       total: 0
     );
     repositoryMock.Setup(x => x.Search(

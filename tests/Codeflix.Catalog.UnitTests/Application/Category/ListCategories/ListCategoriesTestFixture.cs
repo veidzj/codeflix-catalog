@@ -1,18 +1,18 @@
 ﻿using Codeflix.Catalog.Application.UseCases.Category.ListCategories;
-using Codeflix.Catalog.Domain.Entity;
 using Codeflix.Catalog.Domain.SeedWork.SearchableRepository;
-using Codeflix.Catalog.UnitTests.Application.Common;
+using Codeflix.Catalog.UnitTests.Application.Category.Common;
 using System;
 using System.Collections.Generic;
 using Xunit;
+using DomainEntity = Codeflix.Catalog.Domain.Entity;
 
-namespace Codeflix.Catalog.UnitTests.Application.ListCategories;
+namespace Codeflix.Catalog.UnitTests.Application.Category.ListCategories;
 
 public class ListCategoriesTestFixture : CategoryUseCasesBaseFixture
 {
-  public List<Category> GetCategoriesList(int length = 10)
+  public List<DomainEntity.Category> GetCategoriesList(int length = 10)
   {
-    List<Category> list = [];
+    List<DomainEntity.Category> list = [];
     for (int i = 0; i < length; i++)
     {
       list.Add(this.GetCategory());

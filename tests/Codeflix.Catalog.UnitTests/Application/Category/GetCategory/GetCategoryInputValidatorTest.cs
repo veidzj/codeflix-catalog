@@ -4,7 +4,7 @@ using FluentValidation.Results;
 using System;
 using Xunit;
 
-namespace Codeflix.Catalog.UnitTests.Application.GetCategory;
+namespace Codeflix.Catalog.UnitTests.Application.Category.GetCategory;
 
 [Collection(nameof(GetCategoryTestFixture))]
 public class GetCategoryInputValidatorTest

@@ -1,7 +1,7 @@
-﻿using Codeflix.Catalog.UnitTests.Application.Common;
+﻿using Codeflix.Catalog.UnitTests.Application.Category.Common;
 using Xunit;
 
-namespace Codeflix.Catalog.UnitTests.Application.DeleteCategory;
+namespace Codeflix.Catalog.UnitTests.Application.Category.DeleteCategory;
 public class DeleteCategoryTestFixture : CategoryUseCasesBaseFixture
 {
 

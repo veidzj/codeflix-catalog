@@ -1,6 +1,5 @@
 ﻿using Codeflix.Catalog.Application.Exceptions;
 using Codeflix.Catalog.Application.Interfaces;
-using Codeflix.Catalog.Domain.Entity;
 using Codeflix.Catalog.Domain.Repository;
 using FluentAssertions;
 using Moq;
@@ -8,9 +7,10 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
+using DomainEntity = Codeflix.Catalog.Domain.Entity;
 using UseCase = Codeflix.Catalog.Application.UseCases.Category.DeleteCategory;
 
-namespace Codeflix.Catalog.UnitTests.Application.DeleteCategory;
+namespace Codeflix.Catalog.UnitTests.Application.Category.DeleteCategory;
 
 [Collection(nameof(DeleteCategoryTestFixture))]
 public class DeleteCategoryTest
@@ -28,7 +28,7 @@ public class DeleteCategoryTest
   {
     Mock<ICategoryRepository> repositoryMock = this.fixture.GetRepositoryMock();
     Mock<IUnitOfWork> unitOfWorkMock = this.fixture.GetUnitOfWorkMock();
-    Category category = this.fixture.GetCategory();
+    DomainEntity.Category category = this.fixture.GetCategory();
     repositoryMock.Setup(x => x.Get(category.Id, It.IsAny<CancellationToken>())).ReturnsAsync(category);
     UseCase.DeleteCategoryInput input = new(category.Id);
     UseCase.DeleteCategory useCase = new(repositoryMock.Object, unitOfWorkMock.Object);

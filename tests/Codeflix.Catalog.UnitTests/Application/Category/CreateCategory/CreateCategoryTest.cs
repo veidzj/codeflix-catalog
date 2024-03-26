@@ -1,7 +1,6 @@
 ﻿using Codeflix.Catalog.Application.Interfaces;
 using Codeflix.Catalog.Application.UseCases.Category.Common;
 using Codeflix.Catalog.Application.UseCases.Category.CreateCategory;
-using Codeflix.Catalog.Domain.Entity;
 using Codeflix.Catalog.Domain.Exceptions;
 using Codeflix.Catalog.Domain.Repository;
 using FluentAssertions;
@@ -10,9 +9,10 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
+using DomainEntity = Codeflix.Catalog.Domain.Entity;
 using UseCases = Codeflix.Catalog.Application.UseCases.Category.CreateCategory;
 
-namespace Codeflix.Catalog.UnitTests.Application.CreateCategory;
+namespace Codeflix.Catalog.UnitTests.Application.Category.CreateCategory;
 
 [Collection(nameof(CreateCategoryTestFixture))]
 public class CreateCategoryTest
@@ -31,11 +31,11 @@ public class CreateCategoryTest
     Mock<ICategoryRepository> repositoryMock = this.fixture.GetRepositoryMock();
     Mock<IUnitOfWork> unitOfWorkMock = this.fixture.GetUnitOfWorkMock();
     UseCases.CreateCategory useCase = new(repositoryMock.Object, unitOfWorkMock.Object);
-    UseCases.CreateCategoryInput input = this.fixture.GetInput();
+    CreateCategoryInput input = this.fixture.GetInput();
 
     CategoryModelOutput output = await useCase.Handle(input, CancellationToken.None);
 
-    repositoryMock.Verify(repository => repository.Insert(It.IsAny<Category>(), It.IsAny<CancellationToken>()), Times.Once);
+    repositoryMock.Verify(repository => repository.Insert(It.IsAny<DomainEntity.Category>(), It.IsAny<CancellationToken>()), Times.Once);
     unitOfWorkMock.Verify(unityOfWork => unityOfWork.Commit(It.IsAny<CancellationToken>()), Times.Once);
     output.Should().NotBeNull();
     output.Name.Should().Be(input.Name);
@@ -56,7 +56,7 @@ public class CreateCategoryTest
 
     CategoryModelOutput output = await useCase.Handle(input, CancellationToken.None);
 
-    repositoryMock.Verify(repository => repository.Insert(It.IsAny<Category>(), It.IsAny<CancellationToken>()), Times.Once);
+    repositoryMock.Verify(repository => repository.Insert(It.IsAny<DomainEntity.Category>(), It.IsAny<CancellationToken>()), Times.Once);
     unitOfWorkMock.Verify(unityOfWork => unityOfWork.Commit(It.IsAny<CancellationToken>()), Times.Once);
     output.Should().NotBeNull();
     output.Name.Should().Be(input.Name);
@@ -77,7 +77,7 @@ public class CreateCategoryTest
 
     CategoryModelOutput output = await useCase.Handle(input, CancellationToken.None);
 
-    repositoryMock.Verify(repository => repository.Insert(It.IsAny<Category>(), It.IsAny<CancellationToken>()), Times.Once);
+    repositoryMock.Verify(repository => repository.Insert(It.IsAny<DomainEntity.Category>(), It.IsAny<CancellationToken>()), Times.Once);
     unitOfWorkMock.Verify(unityOfWork => unityOfWork.Commit(It.IsAny<CancellationToken>()), Times.Once);
     output.Should().NotBeNull();
     output.Name.Should().Be(input.Name);

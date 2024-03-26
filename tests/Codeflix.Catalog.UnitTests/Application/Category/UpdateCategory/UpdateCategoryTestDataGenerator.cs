@@ -1,9 +1,8 @@
 ﻿using Codeflix.Catalog.Application.UseCases.Category.UpdateCategory;
-using Codeflix.Catalog.Domain.Entity;
-using Codeflix.Catalog.UnitTests.Application.CreateCategory;
 using System.Collections.Generic;
+using DomainEntity = Codeflix.Catalog.Domain.Entity;
 
-namespace Codeflix.Catalog.UnitTests.Application.UpdateCategory;
+namespace Codeflix.Catalog.UnitTests.Application.Category.UpdateCategory;
 public class UpdateCategoryTestDataGenerator
 {
   public static IEnumerable<object[]> GetCategoriesToUpdate(int times = 10)
@@ -11,7 +10,7 @@ public class UpdateCategoryTestDataGenerator
     UpdateCategoryTestFixture fixture = new();
     for (int index = 0; index < times; index++)
     {
-      Category category = fixture.GetCategory();
+      DomainEntity.Category category = fixture.GetCategory();
       UpdateCategoryInput input = fixture.GetInput(category.Id);
       yield return new object[]
       {

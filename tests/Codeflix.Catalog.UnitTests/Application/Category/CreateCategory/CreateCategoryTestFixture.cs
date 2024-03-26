@@ -1,8 +1,8 @@
 ﻿using Codeflix.Catalog.Application.UseCases.Category.CreateCategory;
-using Codeflix.Catalog.UnitTests.Application.Common;
+using Codeflix.Catalog.UnitTests.Application.Category.Common;
 using Xunit;
 
-namespace Codeflix.Catalog.UnitTests.Application.CreateCategory;
+namespace Codeflix.Catalog.UnitTests.Application.Category.CreateCategory;
 public class CreateCategoryTestFixture : CategoryUseCasesBaseFixture
 {
   public CreateCategoryInput GetInput()

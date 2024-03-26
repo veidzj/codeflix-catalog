@@ -1,6 +1,5 @@
 ﻿using Codeflix.Catalog.Application.Exceptions;
 using Codeflix.Catalog.Application.UseCases.Category.Common;
-using Codeflix.Catalog.Domain.Entity;
 using Codeflix.Catalog.Domain.Repository;
 using FluentAssertions;
 using Moq;
@@ -8,9 +7,10 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
+using DomainEntity = Codeflix.Catalog.Domain.Entity;
 using UseCase = Codeflix.Catalog.Application.UseCases.Category.GetCategory;
 
-namespace Codeflix.Catalog.UnitTests.Application.GetCategory;
+namespace Codeflix.Catalog.UnitTests.Application.Category.GetCategory;
 
 [Collection(nameof(GetCategoryTestFixture))]
 public class GetCategoryTest
@@ -27,7 +27,7 @@ public class GetCategoryTest
   public async Task GetCategory()
   {
     Mock<ICategoryRepository> repositoryMock = this.fixture.GetRepositoryMock();
-    Category category = this.fixture.GetCategory();
+    DomainEntity.Category category = this.fixture.GetCategory();
     repositoryMock.Setup(x => x.Get(It.IsAny<Guid>(), It.IsAny<CancellationToken>())).ReturnsAsync(category);
     UseCase.GetCategoryInput input = new(category.Id);
     UseCase.GetCategory useCase = new(repositoryMock.Object);

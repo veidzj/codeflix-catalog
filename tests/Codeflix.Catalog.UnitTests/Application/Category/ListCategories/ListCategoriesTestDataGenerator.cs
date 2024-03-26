@@ -1,7 +1,7 @@
 ﻿using Codeflix.Catalog.Application.UseCases.Category.ListCategories;
 using System.Collections.Generic;
 
-namespace Codeflix.Catalog.UnitTests.Application.ListCategories;
+namespace Codeflix.Catalog.UnitTests.Application.Category.ListCategories;
 public class ListCategoriesTestDataGenerator
 {
   public static IEnumerable<object[]> GetInputsWithoutParameters(int times = 10)

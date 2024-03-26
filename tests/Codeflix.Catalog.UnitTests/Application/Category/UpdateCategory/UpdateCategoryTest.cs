@@ -2,7 +2,6 @@
 using Codeflix.Catalog.Application.Interfaces;
 using Codeflix.Catalog.Application.UseCases.Category.Common;
 using Codeflix.Catalog.Application.UseCases.Category.UpdateCategory;
-using Codeflix.Catalog.Domain.Entity;
 using Codeflix.Catalog.Domain.Exceptions;
 using Codeflix.Catalog.Domain.Repository;
 using FluentAssertions;
@@ -11,9 +10,10 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
+using DomainEntity = Codeflix.Catalog.Domain.Entity;
 using UseCase = Codeflix.Catalog.Application.UseCases.Category.UpdateCategory;
 
-namespace Codeflix.Catalog.UnitTests.Application.UpdateCategory;
+namespace Codeflix.Catalog.UnitTests.Application.Category.UpdateCategory;
 
 [Collection(nameof(UpdateCategoryTestFixture))]
 public class UpdateCategoryTest
@@ -32,7 +32,7 @@ public class UpdateCategoryTest
     parameters: 10,
     MemberType = typeof(UpdateCategoryTestDataGenerator)
   )]
-  public async Task UpdateCategory(Category category, UpdateCategoryInput input)
+  public async Task UpdateCategory(DomainEntity.Category category, UpdateCategoryInput input)
   {
     Mock<ICategoryRepository> repositoryMock = this.fixture.GetRepositoryMock();
     Mock<IUnitOfWork> unitOfWorkMock = this.fixture.GetUnitOfWorkMock();
@@ -57,7 +57,7 @@ public class UpdateCategoryTest
     parameters: 10,
     MemberType = typeof(UpdateCategoryTestDataGenerator)
   )]
-  public async Task UpdateCategoryWithoutIsActive(Category category, UpdateCategoryInput input)
+  public async Task UpdateCategoryWithoutIsActive(DomainEntity.Category category, UpdateCategoryInput input)
   {
     UpdateCategoryInput inputWithoutIsActive = new(input.Id, input.Name, input.Description);
     Mock<ICategoryRepository> repositoryMock = this.fixture.GetRepositoryMock();
@@ -83,7 +83,7 @@ public class UpdateCategoryTest
     parameters: 10,
     MemberType = typeof(UpdateCategoryTestDataGenerator)
   )]
-  public async Task UpdateCategoryOnlyName(Category category, UpdateCategoryInput input)
+  public async Task UpdateCategoryOnlyName(DomainEntity.Category category, UpdateCategoryInput input)
   {
     UpdateCategoryInput inputOnlyName = new(input.Id, input.Name);
     Mock<ICategoryRepository> repositoryMock = this.fixture.GetRepositoryMock();
@@ -128,7 +128,7 @@ public class UpdateCategoryTest
   )]
   public async Task ThrowWhenCantUpdateCategory(UpdateCategoryInput input, string expectedExceptionMessage)
   {
-    Category category = this.fixture.GetCategory();
+    DomainEntity.Category category = this.fixture.GetCategory();
     input.Id = category.Id;
     Mock<ICategoryRepository> repositoryMock = this.fixture.GetRepositoryMock();
     Mock<IUnitOfWork> unitOfWorkMock = this.fixture.GetUnitOfWorkMock();

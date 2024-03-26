@@ -2,6 +2,7 @@
 using Codeflix.Catalog.Domain.Repository;
 using Codeflix.Catalog.UnitTests.Common;
 using Moq;
+using System.Collections.Generic;
 using Xunit;
 
 namespace Codeflix.Catalog.UnitTests.Application.GetCategory;

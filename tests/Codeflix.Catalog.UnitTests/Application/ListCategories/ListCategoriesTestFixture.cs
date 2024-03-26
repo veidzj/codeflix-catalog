@@ -1,5 +1,7 @@
-﻿using Codeflix.Catalog.Domain.Entity;
+﻿using Codeflix.Catalog.Application.UseCases.Category.ListCategories;
+using Codeflix.Catalog.Domain.Entity;
 using Codeflix.Catalog.Domain.Repository;
+using Codeflix.Catalog.Domain.SeedWork.SearchableRepository;
 using Codeflix.Catalog.UnitTests.Common;
 using Moq;
 using System;
@@ -57,6 +59,18 @@ public class ListCategoriesTestFixture : BaseFixture
       list.Add(this.GetCategory());
     }
     return list;
+  }
+
+  public ListCategoriesInput GetListCategoriesInput()
+  {
+    Random random = new();
+    return new(
+      page: random.Next(1, 10),
+      perPage: random.Next(15, 100),
+      search: this.Faker.Commerce.ProductName(),
+      sort: this.Faker.Commerce.ProductName(),
+      dir: random.Next(0, 10) > 5 ? SearchOrder.Asc : SearchOrder.Desc
+    );
   }
 
   public Mock<ICategoryRepository> GetRepositoryMock()

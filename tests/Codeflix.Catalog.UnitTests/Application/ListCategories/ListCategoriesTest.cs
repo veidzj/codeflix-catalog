@@ -5,6 +5,7 @@ using Codeflix.Catalog.Domain.Repository;
 using Codeflix.Catalog.Domain.SeedWork.SearchableRepository;
 using FluentAssertions;
 using Moq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -30,12 +31,12 @@ public class ListCategoriesTest
   {
     List<Category> categoriesList = this.fixture.GetCategoriesList();
     Mock<ICategoryRepository> repositoryMock = this.fixture.GetRepositoryMock();
-    ListCategoriesInput input = new(page: 2, perPage: 15, search: "search-example", sort: "name", dir: SearchOrder.Asc);
+    ListCategoriesInput input = this.fixture.GetListCategoriesInput();
     SearchOutput<Category> outputRepositorySearch = new(
       currentPage: input.Page,
       perPage: input.PerPage,
-      items: (IReadOnlyList<Category>)categoriesList,
-      total: 70
+      items: categoriesList,
+      total: new Random().Next(50, 200)
     );
     repositoryMock.Setup(x => x.Search(
       It.Is<SearchInput>(
